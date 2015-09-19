@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# (c) 2015, David O'Brien <david.obrien@versent.com.au>
+# (c) 2015, David O'Brien <obrien.david@outlook.com>
 #
 # This file is part of Ansible
 #
