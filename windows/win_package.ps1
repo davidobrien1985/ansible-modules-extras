@@ -752,7 +752,7 @@ function Set-TargetResource
             if($Ensure -eq "Present")
             {
                 # check if Msi package contains the ProductName and Code specified
-
+                <#
                 $pName,$pCode = Get-MsiProductEntry -Path $Path
 
                 if (
@@ -762,6 +762,7 @@ function Set-TargetResource
                 {
                     Throw-InvalidNameOrIdException ($LocalizedData.InvalidNameOrId -f $Name,$identifyingNumber,$pName,$pCode)
                 }
+                #>
 
                 $startInfo.Arguments = '/i "{0}"' -f $Path
             }
@@ -1237,10 +1238,15 @@ Set-Attr $result "changed" $false;
 
 $path = Get-Attr -obj $params -name path -failifempty $true -resultobj $result
 $name = Get-Attr -obj $params -name name -default $path
-$productid = Get-Attr -obj $params -name productid -failifempty $true -resultobj $result
+$productid = Get-Attr -obj $params -name productid
+if ($productid -eq $null)
+{
+    #Alias added for backwards compat.
+    $productid = Get-Attr -obj $params -name product_id -failifempty $true -resultobj $result
+}
 $arguments = Get-Attr -obj $params -name arguments
 $ensure = Get-Attr -obj $params -name state -default "present"
-if (!$ensure)
+if ($ensure -eq $null)
 {
     $ensure = Get-Attr -obj $params -name ensure -default "present"
 }
